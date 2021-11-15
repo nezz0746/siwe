@@ -213,7 +213,8 @@ export class SiweMessage {
 				}
 				if (missing.length > 0) {
 					throw new Error(
-						`${ErrorTypes.MALFORMED_SESSION
+						`${
+							ErrorTypes.MALFORMED_SESSION
 						} missing: ${missing.join(', ')}.`
 					);
 				}
@@ -223,7 +224,7 @@ export class SiweMessage {
 					this.signature
 				);
 
-				if (addr !== this.address) {
+				if (addr.toLowerCase() !== this.address.toLowerCase()) {
 					try {
 						//EIP-1271
 						const isValidSignature =
@@ -242,7 +243,7 @@ export class SiweMessage {
 				if (
 					parsedMessage.expirationTime &&
 					new Date().getTime() >=
-					new Date(parsedMessage.expirationTime).getTime()
+						new Date(parsedMessage.expirationTime).getTime()
 				) {
 					throw new Error(ErrorTypes.EXPIRED_MESSAGE);
 				}
